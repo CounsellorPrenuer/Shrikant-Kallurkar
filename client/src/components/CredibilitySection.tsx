@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import worldBankLogo from "@assets/world bank_1760085660501.png";
 
 export default function CredibilitySection() {
   const ref = useRef(null);
@@ -9,7 +10,7 @@ export default function CredibilitySection() {
   const institutions = [
     {
       name: "The World Bank",
-      logo: "/attached_assets/world bank_1760085530902.png",
+      logo: worldBankLogo,
     },
     {
       name: "Government of India",
