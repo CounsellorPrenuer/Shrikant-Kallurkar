@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { Building2, Award, Search, Flag } from "lucide-react";
 
 export default function CredibilitySection() {
   const ref = useRef(null);
@@ -9,19 +10,23 @@ export default function CredibilitySection() {
   const institutions = [
     {
       name: "The World Bank",
-      logo: "https://upload.wikimedia.org/wikipedia/en/8/8d/World_Bank_logo.svg",
+      icon: Building2,
+      color: "from-blue-600 to-cyan-600",
     },
     {
       name: "Government of India",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg",
+      icon: Flag,
+      color: "from-orange-600 to-amber-600",
     },
     {
       name: "Google",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+      icon: Search,
+      color: "from-red-600 to-blue-600",
     },
     {
       name: "ResearchGate",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/5/5e/ResearchGate_icon_SVG.svg",
+      icon: Award,
+      color: "from-emerald-600 to-teal-600",
     },
   ];
 
@@ -45,15 +50,15 @@ export default function CredibilitySection() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group flex items-center justify-center p-4 sm:p-6 bg-card/30 backdrop-blur-sm border border-card-border rounded-xl hover-elevate transition-all hover:shadow-lg"
+              className="group flex flex-col items-center justify-center p-4 sm:p-6 bg-card/30 backdrop-blur-sm border border-card-border rounded-xl hover-elevate transition-all hover:shadow-lg"
               data-testid={`card-institution-${index}`}
             >
-              <img
-                src={institution.logo}
-                alt={institution.name}
-                className="h-12 sm:h-16 w-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-300"
-                data-testid={`img-institution-${index}`}
-              />
+              <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${institution.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                <institution.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+              </div>
+              <p className="text-xs sm:text-sm font-semibold text-center text-foreground">
+                {institution.name}
+              </p>
             </motion.div>
           ))}
         </div>
