@@ -276,7 +276,7 @@ export default function AdminDashboard() {
         {/* Payment Records */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-foreground">Payment Records ({payments.filter(p => p.status === 'paid').length})</h2>
+            <h2 className="text-xl font-semibold text-foreground">Payment Records ({payments.length})</h2>
             <Button 
               variant="outline" 
               size="sm" 
@@ -290,7 +290,7 @@ export default function AdminDashboard() {
           </div>
           <Card>
             <CardContent className="p-0">
-              {payments.filter(p => p.status === 'paid').length === 0 ? (
+              {payments.length === 0 ? (
                 <div className="text-center py-12">
                   <CreditCard className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
                   <p className="font-semibold text-foreground mb-1">No Payments</p>
@@ -304,18 +304,30 @@ export default function AdminDashboard() {
                         <th className="text-left p-4 font-semibold text-sm">Customer</th>
                         <th className="text-left p-4 font-semibold text-sm">Package</th>
                         <th className="text-left p-4 font-semibold text-sm">Amount</th>
+                        <th className="text-left p-4 font-semibold text-sm">Status</th>
                         <th className="text-left p-4 font-semibold text-sm">Payment ID</th>
                         <th className="text-left p-4 font-semibold text-sm">Date</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {payments.filter(p => p.status === 'paid').slice(0, 5).map((payment, index) => (
+                      {payments.slice(0, 10).map((payment, index) => (
                         <tr key={payment.id} className="border-t" data-testid={`row-payment-${index}`}>
                           <td className="p-4 text-sm">{payment.customerName}</td>
                           <td className="p-4 text-sm">{payment.packageName}</td>
                           <td className="p-4 text-sm font-semibold">₹{payment.amount.toLocaleString()}</td>
-                          <td className="p-4 text-sm font-mono text-xs">{payment.razorpayPaymentId}</td>
-                          <td className="p-4 text-sm">{payment.paidAt ? format(new Date(payment.paidAt), 'MMM dd, yyyy') : 'N/A'}</td>
+                          <td className="p-4">
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                              payment.status === 'paid' 
+                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                : payment.status === 'failed'
+                                ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                            }`}>
+                              {payment.status.toUpperCase()}
+                            </span>
+                          </td>
+                          <td className="p-4 text-sm font-mono text-xs">{payment.razorpayPaymentId || 'N/A'}</td>
+                          <td className="p-4 text-sm">{payment.paidAt ? format(new Date(payment.paidAt), 'MMM dd, yyyy HH:mm') : format(new Date(payment.createdAt), 'MMM dd, yyyy HH:mm')}</td>
                         </tr>
                       ))}
                     </tbody>
