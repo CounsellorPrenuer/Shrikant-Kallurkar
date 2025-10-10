@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@assets/logo_1760082720574.png";
 
 interface NavbarProps {
   onBookConsultation: () => void;
@@ -67,7 +68,7 @@ export default function Navbar({ onBookConsultation }: NavbarProps) {
               className="flex-shrink-0"
             >
               <img
-                src="/attached_assets/logo_1760082720574.png"
+                src={logo}
                 alt="Level Up Pune"
                 className="h-10 sm:h-12 w-auto"
                 data-testid="img-logo"
