@@ -52,7 +52,11 @@ export default function CredibilitySection() {
               <img
                 src={institution.logo}
                 alt={institution.name}
-                className="h-12 sm:h-16 w-auto object-contain opacity-70 group-hover:opacity-100 transition-all duration-300"
+                className={`h-12 sm:h-16 w-auto object-contain transition-all duration-300 ${
+                  institution.name === "The World Bank" 
+                    ? "opacity-100 brightness-0 invert dark:brightness-100 dark:invert-0" 
+                    : "opacity-70 group-hover:opacity-100"
+                }`}
                 data-testid={`img-institution-${index}`}
               />
             </motion.div>
