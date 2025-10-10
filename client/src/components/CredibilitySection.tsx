@@ -51,7 +51,7 @@ export default function CredibilitySection() {
               <img
                 src={institution.logo}
                 alt={institution.name}
-                className="h-12 sm:h-16 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
+                className="h-12 sm:h-16 w-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-300"
                 data-testid={`img-institution-${index}`}
               />
             </motion.div>
