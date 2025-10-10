@@ -8,40 +8,168 @@ import PackagesSection from "@/components/PackagesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import UserDetailsDialog from "@/components/UserDetailsDialog";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
 export default function Home() {
   const { toast } = useToast();
-  const [showConsultationDialog, setShowConsultationDialog] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<string>("");
+  const [showUserDetailsDialog, setShowUserDetailsDialog] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<{ name: string; amount: number }>({ name: "", amount: 0 });
 
   const handleBookConsultation = () => {
-    setShowConsultationDialog(true);
+    setSelectedPackage({ name: "General Consultation", amount: 5000 });
+    setShowUserDetailsDialog(true);
   };
 
-  const handleEngageClick = (packageName: string) => {
-    setSelectedPackage(packageName);
-    setShowConsultationDialog(true);
+  const handleEngageClick = (packageInfo: string) => {
+    // Parse package info: "Package Name - ₹Amount"
+    const parts = packageInfo.split(" - ₹");
+    const name = parts[0];
+    const amount = parseInt(parts[1].replace(/,/g, ""));
+    
+    setSelectedPackage({ name, amount });
+    setShowUserDetailsDialog(true);
   };
 
-  const handleProceedToPayment = () => {
-    // TODO: Implement Razorpay integration
-    console.log("Proceeding to payment for:", selectedPackage || "General Consultation");
-    
-    toast({
-      title: "Payment Integration Pending",
-      description: "Razorpay integration will be added in the next phase.",
-    });
-    
-    setShowConsultationDialog(false);
+  const createOrderMutation = useMutation({
+    mutationFn: async (data: {
+      amount: number;
+      customerName: string;
+      customerEmail: string;
+      customerPhone: string;
+      packageName: string;
+    }): Promise<{ orderId: string; amount: number; currency: string; keyId: string }> => {
+      const response = await apiRequest("/api/payments/create-order", "POST", data);
+      return response;
+    },
+  });
+
+  const verifyPaymentMutation = useMutation({
+    mutationFn: async (data: {
+      razorpay_order_id: string;
+      razorpay_payment_id: string;
+      razorpay_signature: string;
+    }): Promise<{ success: boolean; booking: any }> => {
+      const response = await apiRequest("/api/payments/verify", "POST", data);
+      return response;
+    },
+    onSuccess: () => {
+      toast({
+        title: "Payment Successful!",
+        description: "Your booking has been confirmed. Check your email for details.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Payment Verification Failed",
+        description: "Please contact support if amount was deducted.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const createLeadMutation = useMutation({
+    mutationFn: async (data: {
+      name: string;
+      email: string;
+      phone: string;
+      source: string;
+      packageName?: string;
+    }) => {
+      const response = await apiRequest("/api/leads", "POST", data);
+      return response;
+    },
+  });
+
+  const handleProceedToPayment = async (userDetails: {
+    name: string;
+    email: string;
+    phone: string;
+  }) => {
+    try {
+      // Create lead first
+      await createLeadMutation.mutateAsync({
+        name: userDetails.name,
+        email: userDetails.email,
+        phone: userDetails.phone,
+        source: "package_inquiry",
+        packageName: selectedPackage.name,
+      });
+
+      // Create Razorpay order
+      const orderData = await createOrderMutation.mutateAsync({
+        amount: selectedPackage.amount,
+        customerName: userDetails.name,
+        customerEmail: userDetails.email,
+        customerPhone: userDetails.phone,
+        packageName: selectedPackage.name,
+      });
+
+      // Load Razorpay script if not already loaded
+      if (!window.Razorpay) {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.async = true;
+        document.body.appendChild(script);
+        
+        await new Promise((resolve) => {
+          script.onload = resolve;
+        });
+      }
+
+      // Configure Razorpay options
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Level Up Pune",
+        description: selectedPackage.name,
+        order_id: orderData.orderId,
+        prefill: {
+          name: userDetails.name,
+          email: userDetails.email,
+          contact: userDetails.phone,
+        },
+        theme: {
+          color: "#800000",
+        },
+        handler: async function (response: any) {
+          // Verify payment on backend
+          await verifyPaymentMutation.mutateAsync({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          });
+        },
+        modal: {
+          ondismiss: function () {
+            toast({
+              title: "Payment Cancelled",
+              description: "You cancelled the payment process.",
+            });
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+      setShowUserDetailsDialog(false);
+    } catch (error: any) {
+      console.error("Payment error:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to initiate payment. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -56,42 +184,14 @@ export default function Home() {
       <ContactSection />
       <Footer />
 
-      {/* Consultation Dialog */}
-      <Dialog open={showConsultationDialog} onOpenChange={setShowConsultationDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Book Your Consultation</DialogTitle>
-            <DialogDescription>
-              {selectedPackage
-                ? `You've selected: ${selectedPackage}`
-                : "Schedule a consultation with Dr. Shrikant Kallurkar"}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <p className="text-sm text-muted-foreground">
-              To proceed with booking, please click the button below. You'll be
-              directed to our secure payment gateway.
-            </p>
-            <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-sm font-medium text-foreground mb-2">
-                What happens next:
-              </p>
-              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>Complete secure payment via Razorpay</li>
-                <li>Receive confirmation email</li>
-                <li>Schedule your session</li>
-              </ul>
-            </div>
-            <Button
-              onClick={handleProceedToPayment}
-              className="w-full"
-              data-testid="button-proceed-payment"
-            >
-              Proceed to Payment
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* User Details Dialog */}
+      <UserDetailsDialog
+        open={showUserDetailsDialog}
+        onOpenChange={setShowUserDetailsDialog}
+        packageName={selectedPackage.name}
+        amount={selectedPackage.amount}
+        onProceed={handleProceedToPayment}
+      />
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function ContactSection() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.message) {
@@ -32,15 +32,38 @@ export default function ContactSection() {
       return;
     }
 
-    // TODO: Implement actual form submission to backend
-    console.log("Form submitted:", formData);
-    
-    toast({
-      title: "Thank you!",
-      description: "Your message has been received. We'll get back to you soon.",
-    });
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          message: formData.message,
+          source: "contact_form",
+        }),
+      });
 
-    setFormData({ name: "", email: "", phone: "", message: "" });
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      toast({
+        title: "Thank you!",
+        description: "Your message has been received. We'll get back to you soon.",
+      });
+
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const contactInfo = [

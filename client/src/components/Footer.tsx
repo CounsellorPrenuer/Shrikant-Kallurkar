@@ -1,4 +1,5 @@
 import { Linkedin, Facebook, Mail } from "lucide-react";
+import logo from "@assets/logo_1760082720574.png";
 
 export default function Footer() {
   const scrollToSection = (id: string) => {
@@ -40,7 +41,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <img
-              src="/attached_assets/logo_1760082720574.png"
+              src={logo}
               alt="Level Up Pune"
               className="h-12 w-auto mb-4"
               data-testid="img-footer-logo"
