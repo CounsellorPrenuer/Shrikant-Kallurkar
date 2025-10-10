@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import worldBankLogo from "@assets/world bank_1760085660501.png";
+import worldBankLogo from "@assets/logo_1760087641634.png";
 
 export default function CredibilitySection() {
   const ref = useRef(null);
@@ -46,17 +46,17 @@ export default function CredibilitySection() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group flex items-center justify-center p-4 sm:p-6 bg-card/30 backdrop-blur-sm border border-card-border rounded-xl hover-elevate transition-all hover:shadow-lg"
+              className={`group flex items-center justify-center p-4 sm:p-6 backdrop-blur-sm border border-card-border rounded-xl hover-elevate transition-all hover:shadow-lg ${
+                institution.name === "The World Bank" 
+                  ? "bg-white dark:bg-muted" 
+                  : "bg-card/30"
+              }`}
               data-testid={`card-institution-${index}`}
             >
               <img
                 src={institution.logo}
                 alt={institution.name}
-                className={`h-12 sm:h-16 w-auto object-contain transition-all duration-300 ${
-                  institution.name === "The World Bank" 
-                    ? "opacity-100 brightness-0 invert dark:brightness-100 dark:invert-0" 
-                    : "opacity-70 group-hover:opacity-100"
-                }`}
+                className="h-12 sm:h-16 w-auto object-contain opacity-70 group-hover:opacity-100 transition-all duration-300"
                 data-testid={`img-institution-${index}`}
               />
             </motion.div>
