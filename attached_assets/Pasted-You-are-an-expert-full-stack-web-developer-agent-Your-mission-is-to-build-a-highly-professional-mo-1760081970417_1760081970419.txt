@@ -1,0 +1,133 @@
+You are an expert full-stack web developer agent. Your mission is to build a highly professional, modern, and fully responsive website for Dr. Shrikant Kallurkar and his brand, Level Up Pune.
+
+Primary Goal: The website's design must be inspired by the polished UI/UX of the leadcrestconsulting.com example, but adapted to project a tone of deep authority, academic prestige, and executive credibility. The site must effectively showcase Dr. Kallurkar's 45 years of experience and his work with world-class institutions. The final product must be a fully functional, lead-generating platform with live Razorpay integration.
+
+## 1. Core Technical Stack & Setup
+Framework: React with Vite.
+
+Styling: Tailwind CSS.
+
+File Structure: Organize into src/components (for Navbar, Hero, ServiceCard, Footer, etc.) and src/assets for the logo and images.
+
+## 2. Design Language & Inspiration Analysis
+Adhere to the modern design principles of the leadcrestconsulting.com example, but use a color palette that conveys authority and wisdom.
+
+Layout & Spacing: Use clean, structured grids and generous whitespace for a sophisticated, uncluttered feel.
+
+Color Palette: No color preference was given. Create an authoritative and academic palette.
+
+Primary Base: Use a deep Charcoal Gray (e.g., #212529) for text and dark sections to convey seriousness and professionalism.
+
+Accent Color: Use a rich Maroon or Burgundy (e.g., #800000) for key headlines, buttons, and highlights. This color is associated with academia and prestige.
+
+Background: Use a clean White (#FFFFFF) and a very light off-white/gray (#F8F9FA) for backgrounds to ensure excellent readability and a premium feel.
+
+UI Elements: Implement Glassmorphism, soft shadows, and smooth hover effects on all interactive elements.
+
+Animations: Use subtle, professional on-scroll fade-in animations.
+
+## 3. Branding & Core Identity
+Brand Name: Level Up Pune
+
+Founder's Name: Dr. Shrikant Kallurkar
+
+Logo: Use the image from this Google Drive link: https://api.typeform.com/responses/files/4c00fa2986ce03b94e52ffafa9992460c7faa7778fe3d91eb2fa9f9f4b3c1992/17341040536235767372365971166450.jpg
+
+Profile Picture: CRITICAL: A profile picture was not provided. Use a professional and high-quality placeholder image of a senior male academic/professional that aligns with the brand's authoritative aesthetic. Add a clear comment in the code for the client to easily replace the URL.
+
+Typography: Use a classic and authoritative font pairing like "Lora" for headings (serif for a traditional, academic feel) and "Inter" for body text for clarity.
+
+## 4. Website Structure & Content (Single-Page Scroller)
+Build the website as a single, smooth-scrolling page that tells a story of deep expertise.
+
+a. Navbar
+Style: Sticky, semi-transparent with a blur effect.
+
+Content: Logo (left); Links: About, Services, Testimonials, Contact; CTA Button (right): "Book a Consultation".
+
+b. Hero Section
+Layout: A powerful, full-width section designed to establish immediate credibility.
+
+Content:
+
+Main Headline: 45 Years of Academic & Research Excellence.
+
+Sub-headline: "Strategic career guidance for mid-career professionals, academics, and researchers from a World Bank mentor and Google-recognized scientist."
+
+Key Stats: These are the most critical element. Display them prominently in three icon-based stat boxes:
+
+45 Years of Experience
+
+Mentor & Auditor for The World Bank
+
+Recognized Global Scientist by Google
+
+c. Credibility Section
+Headline: Trusted by Global Institutions
+
+Layout: A clean, professional section displaying the logos of organizations he is associated with.
+
+Content: Display the logos for: The World Bank, Government of India, Google, and ResearchGate.
+
+d. About Me Section
+Content: Use the detailed bio he provided. Format it into easy-to-read paragraphs.
+
+Highlights: Create a visually distinct sub-section to list his key achievements with icons:
+
+Guided 23 Ph.D. Candidates
+
+Mentor for Govt. of India TEQIP
+
+Top 14% Global Researcher (ResearchGate)
+
+e. Services Section
+Headline: Executive & Academic Guidance
+
+Layout: A grid of premium cards. The services must reflect his high-level expertise.
+
+Content (Expanded from "Career Guidance"):
+
+Mid-Career Strategic Guidance: For professionals seeking to pivot or advance into leadership roles.
+
+Academic & Research Mentorship: Guidance for Ph.D. candidates and senior researchers.
+
+Corporate & Institutional Advisory: High-level consulting for colleges and corporations on technical education quality.
+
+f. Packages & Payments Section
+Headline: Engage My Expertise
+
+Layout: A two-card pricing table for his primary offerings.
+
+Content (Placeholder Packages):
+
+Strategic Advisory Session: "A 90-minute deep-dive session for professionals or academics."
+
+Long-Term Mentorship Program: "A multi-session retainer for ongoing guidance and support."
+
+Payment Integration: Each card must have an "Engage Now" button integrated with Razorpay.
+
+g. Testimonials, Contact, and Footer
+Testimonials: Use 3 professional placeholder testimonials from "Ph.D. Scholar" or "Senior Manager" personas.
+
+Contact Section: A form next to his details: shrkntkallurkar5@gmail.com, +91 99701 84557, and social media icons.
+
+Footer: A comprehensive footer with links and social media handles.
+
+LinkedIn: https://www.linkedin.com/in/dr-shrikant-kallurkar-006a4335
+
+Facebook: Link to # as no URL was provided.
+
+## 5. Key Functionality & Integrations
+Razorpay Integration: The package buttons must trigger the Razorpay modal. Use the live Razorpay credentials you provide via Replit Secrets.
+
+Contact Form: Implement validation and a "Thank you!" success message.
+
+Responsiveness: Flawless display on all devices is mandatory.
+
+SEO & Metadata:
+
+Title: Level Up Pune - Dr. Shrikant Kallurkar | Academic & Career Guidance
+
+Meta Description: Dr. Shrikant Kallurkar, a 45-year experienced academician and World Bank mentor, offers career guidance and research mentorship through Level Up Pune.
+
+Keywords: career guidance Pune, Dr. Shrikant Kallurkar, academic mentorship, World Bank mentor, research guidance, mid-career counseling.
