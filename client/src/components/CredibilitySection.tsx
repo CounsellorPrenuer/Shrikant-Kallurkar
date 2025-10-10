@@ -1,4 +1,11 @@
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+
 export default function CredibilitySection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
   const institutions = [
     {
       name: "The World Bank",
@@ -19,29 +26,35 @@ export default function CredibilitySection() {
   ];
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30">
-      <div className="max-w-7xl mx-auto">
-        <h2
-          className="font-serif text-3xl md:text-4xl font-bold text-center text-foreground mb-12"
+    <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-background border-y">
+      <div className="max-w-7xl mx-auto" ref={ref}>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-center text-foreground mb-10 sm:mb-12"
           data-testid="text-credibility-headline"
         >
           Trusted by Global Institutions
-        </h2>
+        </motion.h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 items-center">
           {institutions.map((institution, index) => (
-            <div
+            <motion.div
               key={index}
-              className="flex items-center justify-center p-6 bg-background rounded-lg hover-elevate transition-all"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group flex items-center justify-center p-4 sm:p-6 bg-card/30 backdrop-blur-sm border border-card-border rounded-xl hover-elevate transition-all hover:shadow-lg"
               data-testid={`card-institution-${index}`}
             >
               <img
                 src={institution.logo}
                 alt={institution.name}
-                className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all"
+                className="h-12 sm:h-16 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
                 data-testid={`img-institution-${index}`}
               />
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
