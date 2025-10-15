@@ -39,11 +39,11 @@ export default function AboutSection() {
           >
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-2xl blur-xl opacity-25 group-hover:opacity-40 transition-opacity" />
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-muted shadow-2xl">
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-muted shadow-2xl">
                 <img
                   src={profileImage}
                   alt="Dr. Shrikant Kallurkar"
-                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   data-testid="img-profile"
                 />
               </div>
