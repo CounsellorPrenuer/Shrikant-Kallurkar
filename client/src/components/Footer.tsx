@@ -114,15 +114,9 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground" data-testid="text-copyright">
-              © {new Date().getFullYear()} Level Up Pune. All rights reserved.
-            </p>
-            <div className="flex gap-6 text-sm text-muted-foreground">
-              <button className="hover:text-foreground transition-colors">Privacy Policy</button>
-              <button className="hover:text-foreground transition-colors">Terms of Service</button>
-            </div>
-          </div>
+          <p className="text-sm text-muted-foreground text-center" data-testid="text-copyright">
+            © {new Date().getFullYear()} Level Up Pune. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
