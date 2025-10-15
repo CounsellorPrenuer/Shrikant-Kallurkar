@@ -2,7 +2,7 @@ import { GraduationCap, Users, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import profileImage from "@assets/image_1760524927584.png";
+import profileImage from "@assets/e967e5b7-0928-444b-80be-917452653f3b_1760526522898.png";
 
 export default function AboutSection() {
   const ref = useRef(null);
