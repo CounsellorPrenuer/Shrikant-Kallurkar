@@ -44,6 +44,11 @@ export default function AboutSection() {
                   src={profileImage}
                   alt="Dr. Shrikant Kallurkar"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  style={{
+                    imageRendering: 'auto',
+                    transform: 'translate3d(0, 0, 0)',
+                    backfaceVisibility: 'hidden',
+                  }}
                   data-testid="img-profile"
                 />
               </div>
