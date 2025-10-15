@@ -114,9 +114,14 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50">
-          <p className="text-sm text-muted-foreground text-center" data-testid="text-copyright">
-            © {new Date().getFullYear()} Level Up Pune. All rights reserved.
-          </p>
+          <div className="text-center space-y-2">
+            <p className="text-sm text-muted-foreground" data-testid="text-copyright">
+              © {new Date().getFullYear()} Level Up Pune. All rights reserved.
+            </p>
+            <p className="text-xs text-muted-foreground/80" data-testid="text-partnership">
+              In partnership with Mentoria for enhanced career guidance services.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
