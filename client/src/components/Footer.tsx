@@ -1,4 +1,4 @@
-import { Linkedin, Facebook, Mail } from "lucide-react";
+import { Linkedin, Facebook, Mail, MapPin, Phone } from "lucide-react";
 import logo from "@assets/logo_1760082720574.png";
 
 export default function Footer() {
@@ -35,33 +35,52 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-muted/50 border-t">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Brand */}
-          <div>
+    <footer className="relative bg-gradient-to-br from-muted/80 via-muted/50 to-background border-t overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 bg-grid-white/5 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          {/* Brand Section */}
+          <div className="lg:col-span-2">
             <img
               src={logo}
               alt="Level Up Pune"
-              className="h-12 w-auto mb-4"
+              className="h-14 w-auto mb-6"
               data-testid="img-footer-logo"
             />
-            <p className="text-sm text-muted-foreground">
-              45 years of academic excellence and professional guidance
+            <p className="text-muted-foreground mb-6 max-w-md leading-relaxed">
+              Empowering students and professionals with 45 years of academic excellence 
+              and world-class mentorship from Dr. Shrikant Kallurkar.
             </p>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 text-sm text-muted-foreground">
+                <MapPin className="w-4 h-4 mt-1 flex-shrink-0 text-primary" />
+                <span>Pune, Maharashtra, India</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <Phone className="w-4 h-4 flex-shrink-0 text-primary" />
+                <a href="tel:+91" className="hover:text-foreground transition-colors">
+                  Contact Us
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold text-foreground mb-6 text-lg">Quick Links</h3>
+            <ul className="space-y-3">
               {footerLinks.map((link) => (
                 <li key={link.id}>
                   <button
                     onClick={() => scrollToSection(link.id)}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm group inline-flex items-center gap-2"
                     data-testid={`link-footer-${link.id}`}
                   >
+                    <span className="w-1 h-1 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                     {link.label}
                   </button>
                 </li>
@@ -69,9 +88,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social Links */}
+          {/* Connect Section */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Connect</h3>
+            <h3 className="font-semibold text-foreground mb-6 text-lg">Connect With Us</h3>
             <div className="flex gap-3">
               {socialLinks.map((social, index) => (
                 <a
@@ -79,20 +98,31 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover-elevate active-elevate-2 transition-all"
+                  className="group relative w-11 h-11 rounded-xl bg-card/50 backdrop-blur-sm border border-border flex items-center justify-center hover-elevate active-elevate-2 transition-all"
                   data-testid={`link-footer-social-${index}`}
+                  aria-label={social.label}
                 >
-                  <social.icon className="w-5 h-5 text-foreground" />
+                  <social.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 </a>
               ))}
             </div>
+            <p className="mt-6 text-sm text-muted-foreground">
+              Follow us for updates, insights, and success stories.
+            </p>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t text-center">
-          <p className="text-sm text-muted-foreground" data-testid="text-copyright">
-            © {new Date().getFullYear()} Level Up Pune. All rights reserved.
-          </p>
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-border/50">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-muted-foreground" data-testid="text-copyright">
+              © {new Date().getFullYear()} Level Up Pune. All rights reserved.
+            </p>
+            <div className="flex gap-6 text-sm text-muted-foreground">
+              <button className="hover:text-foreground transition-colors">Privacy Policy</button>
+              <button className="hover:text-foreground transition-colors">Terms of Service</button>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
