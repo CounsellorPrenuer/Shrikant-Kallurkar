@@ -2,6 +2,7 @@ import { GraduationCap, Users, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import profileImage from "@assets/profile_1760512265462.png";
 
 export default function AboutSection() {
   const ref = useRef(null);
@@ -39,9 +40,8 @@ export default function AboutSection() {
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-2xl blur-xl opacity-25 group-hover:opacity-40 transition-opacity" />
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-muted shadow-2xl">
-                {/* TODO: Replace this placeholder URL with the actual profile picture */}
                 <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop"
+                  src={profileImage}
                   alt="Dr. Shrikant Kallurkar"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   data-testid="img-profile"
