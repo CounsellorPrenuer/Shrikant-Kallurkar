@@ -11,21 +11,21 @@ export default function TestimonialsSection() {
   const testimonials = [
     {
       quote:
-        "Dr. Kallurkar's guidance was instrumental in helping me navigate my Ph.D. research. His expertise and patience made all the difference in my academic journey.",
-      author: "Dr. Priya Sharma",
-      role: "Ph.D. Scholar, IIT Mumbai",
+        "A truly transformative experience. Dr. Kallurkar’s innovative approach using the Bhagwad Geeta had a profound impact on my life, providing invaluable clarity and resilience.",
+      author: "Dr. Gaurav Shivaji Wagh",
+      role: "Cyber Security Engineer",
     },
     {
       quote:
-        "The strategic career session gave me clarity on my next steps. Dr. Kallurkar's insights helped me successfully transition into a senior leadership role.",
-      author: "Rajesh Mehta",
-      role: "Senior Manager, Technology",
+        "Srikant Sir makes complex Vedic wisdom incredibly practical. His guidance was instrumental in significantly improving my self-confidence and stress management skills.",
+      author: "Ashish Jain",
+      role: "Delivery Manager, IT Services",
     },
     {
       quote:
-        "Working with Dr. Kallurkar on our institutional quality improvement was transformative. His World Bank experience brought invaluable perspectives.",
-      author: "Prof. Anita Desai",
-      role: "Dean, Engineering College",
+        "His mentorship was pivotal. He helped me confront the fears that were holding me back and gave me the courage to pursue a dream I had long since buried.",
+      author: "Dr. Shweta",
+      role: "HOD Electronics, Renowned Engineering College",
     },
   ];
 

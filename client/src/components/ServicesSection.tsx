@@ -1,4 +1,4 @@
-import { TrendingUp, GraduationCap, Building } from "lucide-react";
+import { TrendingUp, GraduationCap, Building, Sparkles } from "lucide-react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
@@ -29,6 +29,13 @@ export default function ServicesSection() {
       description:
         "High-level consulting for colleges and corporations on technical education quality, curriculum development, and institutional excellence.",
       gradient: "from-orange-500/10 to-red-500/10",
+    },
+    {
+      icon: Sparkles,
+      title: "Vedic Techniques for Goal and Personality Mastery",
+      description:
+        "Ancient Vedic wisdom combined with modern psychology for holistic personal development. Master goal-setting, self-awareness, and personality transformation through time-tested techniques.",
+      gradient: "from-amber-500/10 to-yellow-500/10",
     },
   ];
 
