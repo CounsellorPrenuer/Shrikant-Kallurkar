@@ -1,5 +1,6 @@
 import { Linkedin, Facebook, Mail, MapPin, Phone } from "lucide-react";
 import logo from "@assets/logo_1760082720574.png";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/config";
 
 export default function Footer() {
   const scrollToSection = (id: string) => {
@@ -30,7 +31,7 @@ export default function Footer() {
     {
       icon: Mail,
       label: "Email",
-      href: "mailto:shrkntkallurkar5@gmail.com",
+      href: `mailto:${CONTACT_EMAIL}`,
     },
   ];
 
@@ -62,8 +63,8 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4 flex-shrink-0 text-primary" />
-                <a href="tel:+91" className="hover:text-foreground transition-colors">
-                  Contact Us
+                <a href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`} className="hover:text-foreground transition-colors">
+                  {CONTACT_PHONE}
                 </a>
               </div>
             </div>

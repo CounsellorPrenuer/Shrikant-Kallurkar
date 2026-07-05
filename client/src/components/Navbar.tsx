@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "wouter";
 import logo from "@assets/logo_1760082720574.png";
 
 interface NavbarProps {
-  onBookConsultation: () => void;
+  onBookConsultation?: () => void;
 }
 
 export default function Navbar({ onBookConsultation }: NavbarProps) {
@@ -36,6 +37,8 @@ export default function Navbar({ onBookConsultation }: NavbarProps) {
   const navLinks = [
     { label: "About", id: "about" },
     { label: "Services", id: "services" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Blog", href: "/blog" },
     { label: "Testimonials", id: "testimonials" },
     { label: "Contact", id: "contact" },
   ];
@@ -83,22 +86,36 @@ export default function Navbar({ onBookConsultation }: NavbarProps) {
               className="hidden md:flex items-center gap-6 lg:gap-8"
             >
               {navLinks.map((link, index) => (
-                <motion.button
-                  key={link.id}
+                <motion.div
+                  key={link.label}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
-                  onClick={() => scrollToSection(link.id)}
-                  className="text-sm font-medium text-foreground hover-elevate active-elevate-2 px-3 py-2 rounded-lg transition-all relative group"
-                  data-testid={`link-${link.id}`}
                 >
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                </motion.button>
+                  {link.href ? (
+                    <Link
+                      href={link.href}
+                      className="text-sm font-medium text-foreground hover-elevate active-elevate-2 px-3 py-2 rounded-lg transition-all relative group inline-block"
+                      data-testid={`link-${link.label.toLowerCase()}`}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <motion.button
+                      onClick={() => scrollToSection(link.id!)}
+                      className="text-sm font-medium text-foreground hover-elevate active-elevate-2 px-3 py-2 rounded-lg transition-all relative group"
+                      data-testid={`link-${link.id}`}
+                    >
+                      {link.label}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                    </motion.button>
+                  )}
+                </motion.div>
               ))}
             </motion.div>
 
             {/* CTA Button */}
+            {onBookConsultation && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -113,6 +130,7 @@ export default function Navbar({ onBookConsultation }: NavbarProps) {
                 Book a Consultation
               </Button>
             </motion.div>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -141,18 +159,30 @@ export default function Navbar({ onBookConsultation }: NavbarProps) {
             >
               <div className="px-4 py-4 space-y-2">
                 {navLinks.map((link, index) => (
-                  <motion.button
-                    key={link.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                    onClick={() => scrollToSection(link.id)}
-                    className="block w-full text-left px-4 py-3 text-base font-medium hover-elevate active-elevate-2 rounded-lg"
-                    data-testid={`link-mobile-${link.id}`}
-                  >
-                    {link.label}
-                  </motion.button>
+                  link.href ? (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block w-full text-left px-4 py-3 text-base font-medium hover-elevate active-elevate-2 rounded-lg"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <motion.button
+                      key={link.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                      onClick={() => scrollToSection(link.id!)}
+                      className="block w-full text-left px-4 py-3 text-base font-medium hover-elevate active-elevate-2 rounded-lg"
+                      data-testid={`link-mobile-${link.id}`}
+                    >
+                      {link.label}
+                    </motion.button>
+                  )
                 ))}
+                {onBookConsultation && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -169,6 +199,7 @@ export default function Navbar({ onBookConsultation }: NavbarProps) {
                     Book a Consultation
                   </Button>
                 </motion.div>
+                )}
               </div>
             </motion.div>
           )}

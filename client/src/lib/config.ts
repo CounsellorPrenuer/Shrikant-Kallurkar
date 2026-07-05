@@ -1,0 +1,9 @@
+export const PROJECT_ID = "shrikantkallurkar";
+export const SANITY_PROJECT_ID = "viwfdiol";
+export const SANITY_DATASET = "production";
+export const SANITY_STUDIO_HOST = "shrikant-kallurkar";
+export const GITHUB_PAGES_REPO_NAME = "Shrikant-Kallurkar";
+export const SITE_BASE = "/Shrikant-Kallurkar";
+export const WORKER_URL = "https://multi-tenant-platform.gauravgoodreads.workers.dev";
+export const CONTACT_EMAIL = "shrkntkallurkar5@gmail.com";
+export const CONTACT_PHONE = "+91 99701 84557";

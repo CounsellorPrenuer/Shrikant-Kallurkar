@@ -7,22 +7,25 @@ import { Mail, Phone, Linkedin, Facebook, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/config";
+import { workerPost } from "@/lib/workerApi";
 
 export default function ContactSection() {
   const { toast } = useToast();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.message) {
       toast({
         title: "Missing Fields",
@@ -32,24 +35,15 @@ export default function ContactSection() {
       return;
     }
 
+    setIsSubmitting(true);
     try {
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone || null,
-          message: formData.message,
-          source: "contact_form",
-        }),
+      await workerPost("/api/forms/submit", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || "",
+        message: formData.message,
+        serviceType: "contact_form",
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
 
       toast({
         title: "Thank you!",
@@ -57,12 +51,18 @@ export default function ContactSection() {
       });
 
       setFormData({ name: "", email: "", phone: "", message: "" });
-    } catch (error) {
+    } catch {
+      const subject = encodeURIComponent("Level Up Pune - Contact enquiry");
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n${formData.message}`,
+      );
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
+        title: "Email draft opened",
+        description: "We opened your email app as a fallback. Please send the message to reach us.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -70,14 +70,14 @@ export default function ContactSection() {
     {
       icon: Mail,
       label: "Email",
-      value: "shrkntkallurkar5@gmail.com",
-      href: "mailto:shrkntkallurkar5@gmail.com",
+      value: CONTACT_EMAIL,
+      href: `mailto:${CONTACT_EMAIL}`,
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+91 99701 84557",
-      href: "tel:+919970184557",
+      value: CONTACT_PHONE,
+      href: `tel:${CONTACT_PHONE.replace(/\s/g, "")}`,
     },
   ];
 
@@ -103,10 +103,7 @@ export default function ContactSection() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
         >
-          <h2
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4"
-            data-testid="text-contact-headline"
-          >
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4" data-testid="text-contact-headline">
             Get in Touch
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground" data-testid="text-contact-subheadline">
@@ -115,7 +112,6 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -124,63 +120,46 @@ export default function ContactSection() {
             <Card className="bg-card/50 backdrop-blur-sm border-card-border shadow-lg">
               <CardContent className="pt-6">
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-                  <div>
-                    <Input
-                      placeholder="Your Name *"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="bg-background/50"
-                      data-testid="input-name"
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      type="email"
-                      placeholder="Your Email *"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="bg-background/50"
-                      data-testid="input-email"
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      type="tel"
-                      placeholder="Your Phone"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      className="bg-background/50"
-                      data-testid="input-phone"
-                    />
-                  </div>
-                  <div>
-                    <Textarea
-                      placeholder="Your Message *"
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                      rows={5}
-                      className="bg-background/50"
-                      data-testid="input-message"
-                    />
-                  </div>
-                  <Button type="submit" className="w-full group" data-testid="button-submit">
+                  <Input
+                    placeholder="Your Name *"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="bg-background/50"
+                    data-testid="input-name"
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Your Email *"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="bg-background/50"
+                    data-testid="input-email"
+                  />
+                  <Input
+                    type="tel"
+                    placeholder="Your Phone"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="bg-background/50"
+                    data-testid="input-phone"
+                  />
+                  <Textarea
+                    placeholder="Your Message *"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    rows={5}
+                    className="bg-background/50"
+                    data-testid="input-message"
+                  />
+                  <Button type="submit" className="w-full group" disabled={isSubmitting} data-testid="button-submit">
                     <Send className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -199,9 +178,7 @@ export default function ContactSection() {
                     <info.icon className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      {info.label}
-                    </p>
+                    <p className="text-sm text-muted-foreground mb-1">{info.label}</p>
                     <p className="font-semibold text-base sm:text-lg text-foreground break-all">{info.value}</p>
                   </div>
                 </a>
@@ -209,9 +186,7 @@ export default function ContactSection() {
             </div>
 
             <div className="pt-6 border-t">
-              <h3 className="font-semibold text-foreground mb-4">
-                Connect on Social Media
-              </h3>
+              <h3 className="font-semibold text-foreground mb-4">Connect on Social Media</h3>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
                   <a
