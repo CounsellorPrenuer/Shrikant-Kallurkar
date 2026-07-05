@@ -37,7 +37,7 @@ export default function Navbar({ onBookConsultation }: NavbarProps) {
   const navLinks = [
     { label: "About", id: "about" },
     { label: "Services", id: "services" },
-    { label: "Pricing", href: "/pricing" },
+    { label: "Pricing", id: "packages" },
     { label: "Blog", href: "/blog" },
     { label: "Testimonials", id: "testimonials" },
     { label: "Contact", id: "contact" },

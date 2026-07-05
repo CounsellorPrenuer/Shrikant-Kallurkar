@@ -7,6 +7,7 @@ import { useInView } from "framer-motion";
 import { useCms } from "@/hooks/useCms";
 import { formatCurrency } from "@/lib/currency";
 import type { StandardPlan } from "@/lib/sanity";
+import CustomPlans from "@/components/CustomPlans";
 
 type Category = "8-10" | "10-12" | "college" | "working";
 
@@ -41,6 +42,7 @@ export default function PackagesSection({ onBuyClick }: PackagesSectionProps) {
   const [activeCategory, setActiveCategory] = useState<Category>("8-10");
   const { data } = useCms();
   const plans = data?.standardPlans ?? [];
+  const customPlans = data?.customPlans ?? [];
 
   const currentPackages = plans.filter((plan) => plan.subgroup === activeCategory);
   const isPremium = (plan: StandardPlan) => plan.planId.endsWith("2") || plan.planId.endsWith("4") || plan.planId.endsWith("6");
@@ -167,6 +169,21 @@ export default function PackagesSection({ onBuyClick }: PackagesSectionProps) {
             })}
           </motion.div>
         </AnimatePresence>
+
+        <CustomPlans
+          plans={customPlans}
+          onBuyClick={(plan) =>
+            onBuyClick(
+              {
+                planId: plan.planId,
+                title: plan.title,
+                category: "Custom Mentorship",
+                price: plan.price,
+              },
+              "Custom Mentorship",
+            )
+          }
+        />
       </div>
     </section>
   );

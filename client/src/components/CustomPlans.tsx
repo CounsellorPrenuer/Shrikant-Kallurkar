@@ -12,7 +12,7 @@ export default function CustomPlans({ plans, onBuyClick }: Props) {
   return (
     <section className="mt-24">
       <div className="text-center max-w-4xl mx-auto mb-12">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 font-heading">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 font-serif">
           Want To Customise Your Mentorship Plan?
         </h2>
         <p className="text-lg text-muted-foreground">
@@ -31,7 +31,7 @@ export default function CustomPlans({ plans, onBuyClick }: Props) {
               />
             )}
             <CardHeader>
-              <CardTitle className="text-xl font-heading">{plan.title}</CardTitle>
+              <CardTitle className="text-xl font-serif">{plan.title}</CardTitle>
               <div className="text-3xl font-bold text-primary">{formatCurrency(plan.price)}</div>
             </CardHeader>
             <CardContent className="flex flex-col flex-1">
